@@ -1,0 +1,14 @@
+{
+  "name": "ideal-bola-pwa",
+  "version": "1.0.0",
+  "description": "Situs Bola Ter-update",
+  "main": "push.js",
+  "scripts": {
+    "serve": "http-server"
+  },
+  "author": "Maulana Muhamad",
+  "license": "ISC",
+  "dependencies": {
+    "web-push": "^3.4.4"
+  }
+}
