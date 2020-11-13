@@ -11,7 +11,7 @@ saveForLater = klub => {
 		dbPromise
 			.then(db => {
 				const transaction = db.transaction("klubs", `readwrite`);
-	            transaction.objectStore("klubs").add(klub);
+	            transaction.objectStore("klubs").put(klub);
 	            return transaction;
 			})
 			.then(transaction => {

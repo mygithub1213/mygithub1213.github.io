@@ -5,6 +5,8 @@ const ligaInggris        = 2021;
 const klasmenLigaInggris = `${baseUrl}/v2/competitions/${ligaInggris}/standings`;
 const detailKlub         = `${baseUrl}/v2/teams`;
 
+const defaultImg = "icons/ideal_logo_192x192.png";
+
 const options = {
 	headers: {
 		'X-Auth-Token': myApiToken
@@ -30,6 +32,18 @@ error = (error) => {
 
 fnInnerHTML = (selector, dataHTML) => {
 	document.getElementById(selector).innerHTML = dataHTML;
+}
+
+crestUrlTeam = crestUrl => {
+	if(crestUrl !== null) {
+		crestUrl = replaceHttpToHttps(crestUrl);
+	}
+
+	return crestUrl;
+}
+
+replaceHttpToHttps = string => {
+	return string.replace(/^http:\/\//i, 'https://');
 }
 
 getKlasmenLiga = () => {
@@ -60,13 +74,14 @@ appendKlasmen = standings => {
 
 	table.forEach(item => {
 		const urlDetail = `./klub.html?id=${item.team.id}`;
+		const clubImage = crestUrlTeam(item.team.crestUrl);
 
 		rowsTable += `
 			<tr>
 				<td>${item.position}</td>
 				<td>
 					<div class="ib-nama-klub">
-						<img src="${item.team.crestUrl}" class="mx-2" alt="Image of ${item.team.name}" width="25">
+						<img src="${clubImage}" class="mx-2" alt="Image of ${item.team.name}" width="25" onError="this.onerror=null;this.src='${defaultImg}';">
 						<div><a href="${urlDetail}">${item.team.name}</a></div>
 					</div>
 				</td>
@@ -129,6 +144,7 @@ appendClub = klub => {
 
 	const email     = klub.email ? klub.email : '-';
 	const noTelepon = klub.phone ? klub.phone : '-';
+	const clubImage = crestUrlTeam(klub.crestUrl);
 
 	squad.forEach(pemain => {
 		daftarPemain += `
@@ -164,7 +180,7 @@ appendClub = klub => {
 				</div>
 			</div>
 			<div class="col m3 mb-3">
-				<img src="${klub.crestUrl}" class="responsive-img mb-3" alt="Image of ${klub.name}">
+				<img src="${clubImage}" class="responsive-img mb-3" alt="Image of ${klub.name}" onError="this.onerror=null;this.src='${defaultImg}';">
 
 				<div>
 					<label>Nama Klub</label>
@@ -230,12 +246,14 @@ getSavedClubs = () => {
 			klubFavorit += `<p class="center">Tidak ada klub favorit :(</p>`;
 		} else {
 			klubs.forEach(klub => {
+				const clubImage = crestUrlTeam(klub.crestUrl);
+
 				klubFavorit += `
 					<div class="col s12 m6">
 						<div class="card">
 							<a href="./klub.html?id=${klub.id}&saved=true">
 								<div class="card-image waves-effect waves-block waves-light">
-									<img src="${klub.crestUrl}" alt="Image of ${klub.name}">
+									<img src="${clubImage}" alt="Image of ${klub.name}"  onError="this.onerror=null;this.src='${defaultImg}';">
 								</div>
 							</a>
 
