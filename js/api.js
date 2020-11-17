@@ -138,7 +138,9 @@ getSavedKlubById = () => {
 }
 
 appendClub = klub => {
-	const { squad, activeCompetitions }  = klub;
+	if(klub === undefined) return;
+	
+	const { squad, activeCompetitions } = klub;
 	let daftarPemain    = '';
 	let daftarKompetisi = '';
 
